@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# saved data
+*.csv
+*.dat
+
+# (doxygen) documentation
+doc/
+
+# ignore catch.hpp
+incl/catch.hpp 
