@@ -47,7 +47,7 @@ TEST_CASE( "constructors, properties, delete", "[matrix]") {
 		REQUIRE( mA.data() != 0);
 	
 		// check each element 
-		for (int i = 0; i < nRows * nCols; ++i){
+		for (unsigned int i = 0; i < nRows * nCols; ++i){
 			REQUIRE( mA.element(i) == 0);
 			REQUIRE( mA(i) == 0);
 			REQUIRE( *(mA[i]) == 0);
@@ -130,7 +130,7 @@ TEST_CASE( "constructors, properties, delete", "[matrix]") {
 		REQUIRE( mB.cols() == nCols);
 	
 		// test elements
-		for (int i = 0; i < nRows * nCols; ++i){
+		for (unsigned int i = 0; i < nRows * nCols; ++i){
 			REQUIRE( std::abs(mA.element(i) - mB.element(i)) < eps);
 			REQUIRE( std::abs(mA(i) - mB(i)) < eps);
 			REQUIRE( std::abs(*(mA[i]) - *(mB[i])) < eps);
@@ -218,7 +218,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 	mA.setRandom(1.,2.);
 
 	// check elements
-	for (int i = 0; i < nRows * nCols; ++i)
+	for (unsigned int i = 0; i < nRows * nCols; ++i)
 		REQUIRE( ((mA.element(i) >= 1.) & (mA.element(i) <= 2.)));
 
 	SECTION( "setZero"){
@@ -226,7 +226,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 		mA.setZero();
 	
 		// check elements
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( mA.element(i) == 0);
 	}
 
@@ -235,7 +235,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 		mA.set(11.3);
 	
 		// check elements
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( std::abs(mA.element(i) - 11.3) <= eps);
 	}
 
@@ -245,7 +245,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 		matrix<float> mB(nRows, nCols);
 		mB.setRandom(3.,4.);
 	
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( ((mB.element(i) >= 3.) & (mB.element(i) <= 4.)));
 	
 		// fill matrix mA with values of mB
@@ -267,7 +267,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 
 		// with no arguments, fill with random numbers between 0 and 1
 		mA.setRandom();
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( ((mA.element(i) >= 0.) & (mA.element(i) <= 1.)));
 		
 		// two random matrices should not be equal
@@ -277,17 +277,17 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 				
 		// with two arguments, fill with random numbers between argument 1 and 2
 		mA.setRandom(3., 12.);
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( ((mA.element(i) >= 3.) & (mA.element(i) <= 12.)));
 
 		// incorrect order of min and max should not matter
 		mA.setRandom(12., -3.);
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( ((mA.element(i) >= -3.) & (mA.element(i) <= 12.)));
 	
 		// same argument twice sould lead to matrix filled with that value without error
 		mA.setRandom(-0.3, -0.3);
-		for (int i = 0; i < nRows * nCols; ++i)
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( std::abs(mA.element(i) - -0.3) <= eps);
 	}
 }
