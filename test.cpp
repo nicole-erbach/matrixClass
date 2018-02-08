@@ -290,6 +290,46 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 		for (unsigned int i = 0; i < nRows * nCols; ++i)
 			REQUIRE( std::abs(mA.element(i) - -0.3) <= eps);
 	}
+
+	SECTION( "linspace"){
+
+		// linspace with no arguments: start with 1. for element (0,0), increase by one, row-major
+		mA.linspace();
+		
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
+			REQUIRE( std::abs(mA.element(i) -1. - float(i)) <= eps);
+	
+		// linspace with only one argument: start with this value, increase by one, row-major
+		float from = 4.5;
+		mA.linspace(from);
+		
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
+			REQUIRE( std::abs(mA.element(i) - from - float(i)) <= eps);
+
+		// linspaced values from 0, increase by 0.1
+		mA.linspace(0.);
+		mA *= 0.1;
+
+		for (unsigned int i = 0; i < nRows * nCols; ++i)
+			REQUIRE( std::abs(mA.element(i) - float(i)/10) <= eps);
+
+		// linspace with startvalue and endvalue
+		from = 1.;
+		float to = 15.;
+		mA.linspace(from, to);
+
+		// check first and last value
+		REQUIRE( std::abs(mA(0,0) - from) <= eps);
+		REQUIRE( std::abs(mA(nRows, nCols) - to) <= eps);
+	
+		// check difference between consecutive elements
+		float space = mA.element(1) - mA.element(0);
+		for (unsigned int i = 2; i < nRows * nCols; ++i)
+			REQUIRE( std::abs(mA.element(i) - mA.element(i-1) - space) <= eps);
+
+		
+	}
+
 }
 
 
