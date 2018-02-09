@@ -391,13 +391,9 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 			REQUIRE( mA.getCol(i) == firstCol);
 
 		// check correct values in first col
-		for (unsigned int i = 1; i < nRows; ++i){
-			//std::cout << i << std::endl;
-			//std::cout << firstCol(i) << std::endl;
-			//firstCol.print();
-			//std::cout << firstCol(i) - 1. - float(i) << std::endl;
+		for (unsigned int i = 1; i < nRows; ++i)
 			REQUIRE( std::abs(firstCol(i) -1. - float(i)) <= eps);
-		}
+		
 
 		// only one argument: start with this value, increase by 1
 		float from = 4.5;
