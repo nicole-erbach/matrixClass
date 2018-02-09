@@ -320,7 +320,7 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 
 		// check first and last value
 		REQUIRE( std::abs(mA(0,0) - from) <= eps);
-		REQUIRE( std::abs(mA(nRows, nCols) - to) <= eps);
+		REQUIRE( std::abs(mA(nRows-1, nCols-1) - to) <= eps);
 	
 		// check difference between consecutive elements
 		float space = mA.element(1) - mA.element(0);
@@ -329,6 +329,111 @@ TEST_CASE( "matrix initializations", "[matrix]") {
 
 		
 	}
+
+	SECTION( "linspace per row"){
+
+		// no arguments: start with 1 in each col, increase by 1
+		mA.linspacePerRow();
+		
+		// all rows must be equal
+		matrix<float> firstRow = mA.getRow(0);
+
+		for (unsigned int i = 1; i < nRows; ++i)
+			REQUIRE( mA.getRow(i) == firstRow);
+
+		// check correct values in first row
+		for (unsigned int i = 0; i < nCols; ++i)
+			REQUIRE( std::abs(firstRow(i) -1. - float(i)) <= eps);
+
+
+		// only one argument: start with this value, increase by 1
+		float from = 4.5;
+		mA.linspacePerRow(from);
+		
+		firstRow = mA.getRow(0);
+		for (unsigned int i = 1; i < nRows; ++i)
+			REQUIRE( mA.getRow(i) == firstRow);
+		
+		for (unsigned int i = 0; i < nCols; ++i)
+			REQUIRE( std::abs(firstRow(i) - from - float(i)) <= eps);
+
+	
+		// linspacePerRow with startvalue and endvalue
+		from = 1.;
+		float to = 15.;
+		mA.linspacePerRow(from, to);
+
+		firstRow = mA.getRow(0);
+		for (unsigned int i = 1; i < nRows; ++i)
+			REQUIRE( mA.getRow(i) == firstRow);
+		
+		// check first and last value
+		REQUIRE( std::abs(firstRow(0) - from) <= eps);
+		REQUIRE( std::abs(firstRow(nCols-1) - to) <= eps);
+	
+		// check difference between consecutive elements
+		float space = firstRow(1) - firstRow(0);
+		for (unsigned int i = 2; i < nCols; ++i)
+			REQUIRE( std::abs(firstRow(i) - firstRow(i-1) - space) <= eps);
+			
+
+	}
+
+	SECTION( "linspace per col"){
+
+		// no arguments: start with 1 in each col, increase by 1
+		mA.linspacePerCol();
+		
+		// all columns must be equal
+		matrix<float> firstCol = mA.getCol(0);
+		
+		for (unsigned int i = 1; i < nCols; ++i)
+			REQUIRE( mA.getCol(i) == firstCol);
+
+		// check correct values in first col
+		for (unsigned int i = 1; i < nRows; ++i){
+			//std::cout << i << std::endl;
+			//std::cout << firstCol(i) << std::endl;
+			//firstCol.print();
+			//std::cout << firstCol(i) - 1. - float(i) << std::endl;
+			REQUIRE( std::abs(firstCol(i) -1. - float(i)) <= eps);
+		}
+
+		// only one argument: start with this value, increase by 1
+		float from = 4.5;
+		mA.linspacePerCol(from);
+		
+		firstCol = mA.getCol(0);
+		for (unsigned int i = 1; i < nCols; ++i)
+			REQUIRE( mA.getCol(i) == firstCol);
+		
+		for (unsigned int i = 0; i < nRows; ++i)
+			REQUIRE( std::abs(firstCol(i) - from - float(i)) <= eps);
+
+	
+		// linspacePerRow with startvalue and endvalue
+		from = 1.;
+		float to = 15.;
+		mA.linspacePerCol(from, to);
+
+		firstCol = mA.getCol(0);
+		for (unsigned int i = 1; i < nCols; ++i)
+			REQUIRE( mA.getCol(i) == firstCol);
+		
+		// check first and last value
+		REQUIRE( std::abs(firstCol(0) - from) <= eps);
+		REQUIRE( std::abs(firstCol(nRows-1) - to) <= eps);
+	
+		// check difference between consecutive elements
+		float space = firstCol(1) - firstCol(0);
+		for (unsigned int i = 2; i < nRows; ++i)
+			REQUIRE( std::abs(firstCol(i) - firstCol(i-1) - space) <= eps);
+			
+
+	}
+
+		
+		
 
 }
 

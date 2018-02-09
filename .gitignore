@@ -40,3 +40,6 @@ doc/
 
 # ignore catch.hpp
 incl/catch.hpp 
+
+# temp files
+*.swp

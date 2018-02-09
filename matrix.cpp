@@ -358,7 +358,7 @@ void matrix<T>::set(const matrix<T>& source)
 	if (source.rows() == nRows && source.cols() == nCols)
 		memcpy(storage, source.data(), nRows * nCols * sizeof(T));
 	else
-		printf("set matrix: dimension do not agree. Nothing done");
+		printf("set matrix: dimension do not agree. Nothing done\n");
 
 }
 /** 
